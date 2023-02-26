@@ -17,6 +17,12 @@ class UserShow(BaseModel):
     class Config:
         orm_mode = True
 
+
+class UserAuth(BaseModel):
+    user_id:int
+    username:str
+    email:str
+    
 # post schema 
 
 class PostBase(BaseModel):

@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from db.models import User
 from schema import UserBase
 from sqlalchemy.orm import Session
@@ -15,6 +16,10 @@ def create_user(request:UserBase,db:Session):
     return user
 
 
+def get_user_by_username(username:str,db:Session):
+    user  = db.query(User).filter(User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404,detail="user not found !")
 
-
+    return user
 
