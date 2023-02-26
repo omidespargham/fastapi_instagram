@@ -32,6 +32,7 @@ class PostBase(BaseModel):
     user_id:int
 
 class PostUserShow(BaseModel):
+    id:int
     username:str
 
     class Config:
@@ -47,4 +48,31 @@ class PostShow(BaseModel):
 
     class Config:
         orm_mode = True
+
+# comment schema
+
+class CommentUserShow(BaseModel):
+    id:int
+    username:str
+    email:str
+
+    class Config:
+        orm_mode = True
+
+class CommentPostShow(BaseModel):
+    id:int
+    caption:str
+
+class CommentBase(BaseModel):
+    text:str
+    timestamp:datetime
+    user_id:int
+    post_id:int
+
+class CommentShow(BaseModel):
+    id:int
+    text:str
+    timestamp:datetime
+    user:CommentUserShow
+    post:CommentPostShow
 
