@@ -45,12 +45,5 @@ def upload_file(file:UploadFile=File(...)):
 
 @router.post("delete_post/{post_id}")
 def delete_post(post_id:int,db:Session= Depends(get_db),current_user:schema.UserAuth = Depends(get_current_user)):
-    post = db.query(models.Post).filter(models.Post.id==post_id).first()
-    if not post:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="the post dosent exist !")
-    if post.user_id == current_user.id:
-        db.delete(post)
-        db.commit()
-        return {"ok"}
-    else:
-        return {"this post is not for you to delete it !"}
+    return post_db.delete_post(post_id,db,current_user.user_id)
+
