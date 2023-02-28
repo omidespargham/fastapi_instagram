@@ -23,14 +23,14 @@ def create_post(request:schema.PostBase,db:Session= Depends(get_db),
                 current_user:schema.UserAuth = Depends(get_current_user)):
     if request.image_url_type not in IMGAE_URL_TYPES:
         raise HTTPException(status_code=404,detail="this url type is not correct !")
-    return post_db.create_post(request,db)
+    return post_db.create_post(request=request,user_id=current_user.id,db=db)
      
 
 
 @router.get("/get_all_posts",response_model=List[schema.PostShow])
 def get_all_posts(db:Session = Depends(get_db)):
-    return post_db.get_all_posts(db)
-
+    posts = post_db.get_all_posts(db)
+    return posts
 
 
 
@@ -43,7 +43,7 @@ def upload_file(file:UploadFile=File(...)):
     return {"path_file":path_file}
 
 
-@router.post("delete_post/{post_id}")
+@router.post("/delete_post/{post_id}/")
 def delete_post(post_id:int,db:Session= Depends(get_db),current_user:schema.UserAuth = Depends(get_current_user)):
-    return post_db.delete_post(post_id,db,current_user.user_id)
+    return post_db.delete_post(post_id,db,current_user.id)
 

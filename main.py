@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from db.database import engine
 # we import it from model because some tables extends from the Base
 from db.models import Base
-from routers import user, post
+from routers import user, post,comment
 from auth import authentication
 # this should be mount in main file not routers
 from fastapi.staticfiles import StaticFiles
@@ -16,6 +16,7 @@ Base.metadata.create_all(engine)
 app.include_router(user.router)
 app.include_router(post.router)
 app.include_router(authentication.router)
+app.include_router(comment.router)
 
 
 @app.get("/")
