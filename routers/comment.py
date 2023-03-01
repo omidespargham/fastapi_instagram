@@ -17,3 +17,15 @@ def create_comment(request:schema.CommentBase,db:Session = Depends(get_db),
     comment = comment_db.create_comment(user_id=current_user.id,request=request,db=db)
     return comment
 
+
+@router.post("/delete_comment/{comment_id}")
+def delete_comment(comment_id:int,db:Session = Depends(get_db),
+                   current_user:schema.UserAuth = Depends(get_current_user)):
+    return comment_db.delete_comment(comment_id=comment_db,user_id=current_user.id,db=db)
+    
+    
+@router.get("/get_comments/{post_id}",response_model=List[schema.CommentShow])
+def get_comments(post_id:int,db:Session = Depends(get_db)):
+    return comment_db.get_comments_by_post_id(post_id=post_id,db=db)
+
+
